@@ -3,7 +3,7 @@ run-name: Testing
 on: [push]
 jobs:
   test:
-    if: !startsWith( ${{ github.event.ref }} , '/refs/tags/v')
+    if: not startsWith( ${{ github.event.ref }} , '/refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: checkout
