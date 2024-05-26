@@ -1,6 +1,7 @@
 name: Release
 run-name: Releasing
 on: [release]
+jobs:
   linux_files:
     runs-on: ubuntu-latest
     steps:
