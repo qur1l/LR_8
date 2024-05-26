@@ -3,6 +3,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(bank_lib)
+set(BANK_VERSION_MAJOR 0)
+set(BANK_VERSION_MINOR 1)
+set(BANK_VERSION_PATCH 0)
+set(BANK_VERSION_TWEAK 0)
+set(BANK_VERSION ${BANK_VERSION_MAJOR}.\${BANK_VERSION_MINOR}.\${BANK_VERSION_PATCH}.\${BANK_VERSION_TWEAK})
+set(BANK_VERSION_STRING "v\${BANK_VERSION}"
 
 add_subdirectory(third-party/gtest)
 enable_testing()
@@ -27,3 +33,4 @@ find_package(codecov)
 add_coverage(test1)
 list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/testing/test*'")
 coverage_evaluate()
+include(CPackConfig.cmake)
