@@ -53,7 +53,7 @@ jobs:
           submodules: recursive
       - name: Build
         run: |
-          cmake -S D:/a/LR_6/LR_6 -B D:/a/LR_6/LR_6/_build
+          cmake -S D:/a/LR_6/LR_6 -B D:/a/LR_6/LR_6/_build -DTEST=ON
           cmake --build _build
           cmake --build _build --target test -- ARGS=--verbose
       - name: Make art
