@@ -55,7 +55,7 @@ jobs:
         run: |
           cmake -S D:/a/LR_6/LR_6 -B D:/a/LR_6/LR_6/_build
           cmake --build _build
-	  cmake --build _build --target test -- ARGS=--verbose
+          cmake --build _build --target test -- ARGS=--verbose
       - name: Make art
         run: |
           cd _build
