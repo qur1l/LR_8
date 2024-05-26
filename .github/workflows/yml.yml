@@ -21,8 +21,10 @@ jobs:
           excludes: third-party
           coveralls-send: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
+name: Test
+run-name: Testing
+on: [release]
   linux_files:
-    if: ${{ startsWith( github.event.ref , '/refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -46,7 +48,6 @@ jobs:
           name: arts1
           path: _build/bank_lib-*
   windows_files:
-    if: ${{ startsWith( github.event.ref, '/refs/tags/v') }}
     runs-on: windows-latest
     steps:
       - name: checkout
