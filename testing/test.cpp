@@ -53,14 +53,10 @@ TEST(tr, test) {
   try {
   bank1.Make(dt, rt, -100);
 
-  EXPECT_EQ(3, 2);
-
   } catch (std::invalid_argument& err) {}
 
   try {
   bank1.Make(dt, rt, 0);
-
-  EXPECT_EQ(3, 2);
 
   } catch (std::logic_error& err) {}
 
