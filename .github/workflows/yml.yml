@@ -3,7 +3,7 @@ run-name: Testing
 on: [push]
 jobs:
   test:
-    if: not startsWith( ${{ github.event.ref }} , '/refs/tags/v')
+    if: ${{ !startsWith( github.event.ref , '/refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -22,7 +22,7 @@ jobs:
           coveralls-send: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
   linux_files:
-    if: startsWith( ${{ github.event.ref }} , '/refs/tags/v')
+    if: ${{ startsWith( github.event.ref , '/refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -46,7 +46,7 @@ jobs:
           name: arts1
           path: _build/bank_lib-*
   windows_files:
-    if: startsWith( ${{ github.event.ref }} , '/refs/tags/v')
+    if: ${{ startsWith( github.event.ref, '/refs/tags/v') }}
     runs-on: windows-latest
     steps:
       - name: checkout
