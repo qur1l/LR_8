@@ -3,68 +3,31 @@ run-name: Testing
 on: [push]
 jobs:
   test:
-    if: ${{ !startsWith( github.event.ref , '/refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: apt-get docker.io
+        run: |
+          sudo apt-get remove containerd.io
+          sudo apt install docker.io docker-compose -y
+
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Build & test
-        run: |
-          cmake -H. -B_build -DTEST=ON
-          cmake --build _build
-          cmake --build _build --target test -- ARGS=--verbose
-      - name: Report to Coveralls
-        uses: threeal/gcovr-action@v1.0.0
-        with:
-          excludes: third-party
-          coveralls-send: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-  linux_files:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Build & test
-        run: |
-          cmake -H. -B_build
-          cmake --build _build
-      - name: packages
-        run: |
-          cd _build
-          cpack -G "DEB"
-          cpack -G "RPM"
-          cpack -G "TGZ"
-          cd ..
-      - name: Upload
+
+      - name: Build with docker
+        run: docker build -t builder .
+
+      - name: Start an instance
+        run: docker run --name test -t builder ls
+
+      - name: Copy log file
+        run: docker cp test:/repo/log.txt ./log.txt
+
+      - name: Upload report
         uses: actions/upload-artifact@v4
         with:
-          name: arts1
-          path: _build/bank_lib-*
-  windows_files:
-    runs-on: windows-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Build
-        run: |
-          cmake -S D:/a/LR_6/LR_6 -B D:/a/LR_6/LR_6/_build
-          cmake --build _build
-      - name: Make art
-        run: |
-          cd _build
-          cpack -G "ZIP"
-          cpack -G "NSIS"
-          cd ..
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: arts2
-          path: _build/bank_lib-*
+          name: test_report
+          path: /home/runner/work/LR_8/LR_8/log.txt
 
 
